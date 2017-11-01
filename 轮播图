@@ -1,0 +1,99 @@
+var $btns=$('.btn span');
+    	var $imgs=$('.scroll img');
+    	var $index=0;//当前的索引
+    	var $qindex=0;//前一个索引
+    	$btns.on('click',function(){
+    		$index=$(this).index();
+    		$btns.eq($index).addClass('hover').siblings('span').removeClass('hover');
+    		if($index==0 && $qindex==5){
+    			$imgs.eq($qindex).animate({
+	    			left:820
+	    		});
+	    		$imgs.eq($index).css('left','-820px').animate({
+	    			left:0
+	    		});
+	    		
+    		}else if($index==5 && $qindex==0 ){
+				$imgs.eq($qindex).animate({
+    				left:-820
+	    		});
+	    		$imgs.eq($index).css('left','820px').animate({
+	    			left:0
+	    		});
+    		}else if($index>$qindex){//当前的索引大于前一个索引。
+	    		$imgs.eq($qindex).animate({
+	    			left:-820
+	    		});
+	    		$imgs.eq($index).css('left','820px').animate({
+	    			left:0
+	    		});
+    		}else if($index<$qindex){
+	    		$imgs.eq($qindex).animate({
+	    			left:820
+	    		});
+	    		$imgs.eq($index).css('left','-820px').animate({
+	    			left:0
+	    		});
+    		}
+    		$qindex=$index;
+    	});
+    	
+    	
+    	$('.next').on('click',function(){
+    		$index++;
+    		if($index>5){
+    			$index=0;
+    			$qindex=5;
+    		}
+    		scrollimg();
+    		$qindex=$index;
+    	});
+    	$('.prev').on('click',function(){
+    		$index--;
+    		if($index<0){
+    			$index=5;
+    			$qindex=0;
+    		}
+    		scrollimg();
+    		$qindex=$index;
+    	});
+    	
+    	function scrollimg(){
+    		$btns.eq($index).addClass('hover').siblings('span').removeClass('hover');
+    		if($index==0 && $qindex==5){
+    			$imgs.eq($qindex).animate({
+	    			left:-820
+	    		});
+	    		$imgs.eq($index).css('left','820px').animate({
+	    			left:0
+	    		});
+	    		
+    		}else if($index==5 && $qindex==0 ){
+				$imgs.eq($qindex).animate({
+    				left:820
+	    		});
+	    		$imgs.eq($index).css('left','-820px').animate({
+	    			left:0
+	    		});
+    		}else if($index>$qindex){//当前的索引大于前一个索引。
+	    		$imgs.eq($qindex).animate({
+	    			left:-820
+	    		});
+	    		$imgs.eq($index).css('left','820px').animate({
+	    			left:0
+	    		});
+    		}else if($index<$qindex){
+	    		$imgs.eq($qindex).animate({
+	    			left:820
+	    		});
+	    		$imgs.eq($index).css('left','-820px').animate({
+	    			left:0
+	    		});
+    		}
+    	}
+    	
+    	$('.banner').hover(function(){
+    		$('.prev,.next').show();
+    	},function(){
+    		$('.prev,.next').hide();
+    	});
