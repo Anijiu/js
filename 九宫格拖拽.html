@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 540px;
+            height: 435px;
+            border: 1px solid red;
+            margin: 20px auto;
+        }
+        .box ul li{
+            width: 140px;
+            height: 105px;
+            float: left;
+            margin:20px;
+            background-color: aqua;
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+         <ul>
+				<li style="background:red;"></li>
+				<li style="background:blue;"></li>
+				<li style="background:yellow;"></li>
+				<li style="background:coral;"></li>
+				<li style="background:yellow;"></li>
+				<li style="background:pink;"></li>
+				<li style="background:mediumorchid;"></li>
+				<li style="background:black;"></li>
+				<li style="background:cadetblue;"></li>
+         </ul>
+    </div>
+</body>
+<script>
+    //1.将浮动设置成定位
+    var oLi=document.getElementsByTagName('li');
+    var zindex=0;
+    var arr=[];
+    for(var i=0;i<oLi.length;i++){
+        oLi[i].style.background ='rgb(' + Math.floor(Math.random()*256) + ',' + Math.floor(Math.random()*256) + ',' + Math.floor(Math.random()*256) + ')';
+        arr.push([oLi[i].offsetLeft,oLi[i].offsetTop])
+        // console.log(arr)
+    }
+    
+    for(var i=0;i<oLi.length;i++){
+        oLi[i].style.position = 'absolute';
+        oLi[i].style.left = arr[i][0]+'px';
+        oLi[i].style.top = arr[i][1]+'px';
+        oLi[i].style.margin = '0';
+
+    }
+
+    for(var i=0;i<oLi.length;i++){
+        oLi[i].index=i;
+        tuzhuai(oLi[i]);
+    }
+    
+    function tuzhuai(obj){
+        var dx=0;
+        var dy=0;
+        obj.onmousedown=function(e){
+            var e= e||window.event;
+            dx=e.clientX-obj.offsetLeft;
+            dy=e.clientY-obj.offsetTop;
+
+            document.onmousemove=function(e){
+                var e=e||window.event;
+                obj.style.left=e.clientX-dx+'px';
+                obj.style.top=e.clientY-dy+'px';
+                obj.style.zIndex=++zindex;
+
+            }
+            document.onmouseup=function(e){
+                var e=e||window.event;
+                document.onmouseup=null;
+                document.onmousemove=null;
+
+                var ob = duan(obj);
+                if(duan(obj)){
+                    ob.style.left = arr[obj.index][0]+'px';
+                    ob.style.top = arr[obj.index][1]+'px';
+                    obj.style.left = arr[ob.index][0]+'px';
+                    obj.style.top = arr[ob.index][1]+'px'; 
+                    var order=ob.index;
+                    ob.index=obj.index;
+                    obj.index=order;
+
+                }else{
+                    obj.style.left = arr[obj.index][0]+'px';
+                    obj.style.top = arr[obj.index][1]+'px'; 
+                }
+            }
+            return false;
+        }
+    }
+
+    function duan(obj){
+        var dindex = -1; //定义  假设一个最小索引
+		var dvalue = 500; // 定义   假设一个最小值  （1000）
+        for(var i=0;i<oLi.length;i++){
+            if(peng(obj,oLi[i])&&obj!=oLi[i]){
+                var c = gg(obj,oLi[i]);
+                if(c<dvalue){
+                    dvalue = c;
+                    dindex = i;
+                }
+            }
+        }
+        if(dindex!=-1){
+            return oLi[dindex];
+        }else{
+            return false;
+        }
+    }
+    //判断是否碰撞
+    function peng(obj1,obj2){
+        if(!(obj1.offsetLefteft > obj2.offsetLeft + obj2.offsetWidth || obj1.offsetLefteft < obj2.offsetLeft + obj2.offsetWidth || obj1.offsetTop > obj2.offsetTop + obj2.offsetTop || obj1.offsetTo < obj2.offsetTop + obj2.offsetTop)) {
+            return true; //		return true
+        } else {
+            return false; //		否则返回false
+        }
+    }
+    //距离最近的盒子
+    function gg(obj1,obj2){
+        var a=obj1.offsetLeft-obj2.offsetLeft;
+        var b=obj1.offsetTop-obj2.offsetTop;
+        return Math.sqrt(a*a+b*b);
+    }
+</script>
+</html>
