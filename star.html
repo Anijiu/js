@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .star {
+            width: 300px;
+            height: 28px;
+            margin: 20px;
+        }
+
+        .star li {
+            float: left;
+            width: 27px;
+            height: 28px;
+            list-style: none;
+            background: url(./star.gif) no-repeat 0 0;
+        }
+
+        .star li.active {
+            background: url(./star.gif) no-repeat 0 -28px;
+        }
+        p{
+            margin: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="star">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+    <p></p>
+    <script>
+        var aLi = document.getElementsByTagName('li');
+        var arr = ['非常不满意', '不满意', '满意', '一般满意', '非常满意'];
+        var a = 0;
+
+        for (var i = 0; i < aLi.length; i++) {
+            aLi[i].index = i;
+            aLi[i].onmouseover = function () {
+                star(this.index + 1);
+            }
+            aLi[i].onmouseout = function () {
+                star();
+            }
+            aLi[i].onclick = function () {
+                document.getElementsByTagName('p')[0].innerHTML = arr[this.index]
+                a = this.index + 1;//这个值和onmouseout配合
+            }
+        }
+        function star(num) {
+            var num = num || a;
+            for (var j = 0; j < aLi.length; j++) {
+                aLi[j].className = j < num ? 'active' : '';
+            }
+        }
+    </script>
+</body>
+
+</html>
